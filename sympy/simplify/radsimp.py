@@ -160,6 +160,10 @@ def collect(expr, syms, func=None, evaluate=None, exact=False, distribute_order_
     expr = sympify(expr)
     syms = list(syms) if iterable(syms) else [syms]
 
+    for sym in syms:
+        if not sym.is_commutative:
+            raise ValueError("Cannot collect with respect to a noncommutative")
+
     if evaluate is None:
         evaluate = global_evaluate[0]
 
