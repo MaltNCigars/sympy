@@ -257,7 +257,9 @@ class Printer(object):
             3. As fall-back use the emptyPrinter method for the printer.
         """
         self._print_level += 1
+        print("print function reached")
         try:
+            print("try condition reached")
             # If the printer defines a name for a printing method
             # (Printer.printmethod) and the object knows for itself how it
             # should be printed, use that method.
@@ -284,11 +286,14 @@ class Printer(object):
             for cls in classes:
                 printmethod = '_print_' + cls.__name__
                 if hasattr(self, printmethod):
+                    print("printmethod:", printmethod)
+                    print("hasattr condition reached")
                     return getattr(self, printmethod)(expr, **kwargs)
             # Unknown object, fall back to the emptyPrinter.
             return self.emptyPrinter(expr)
         finally:
             self._print_level -= 1
+            print("print level: ",self._print_level, "\n")
 
     def _as_ordered_terms(self, expr, order=None):
         """A compatibility function for ordering terms in Add. """

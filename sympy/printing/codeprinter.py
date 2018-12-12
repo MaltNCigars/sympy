@@ -64,6 +64,7 @@ class CodePrinter(StrPrinter):
             self.reserved_words = set()
 
     def doprint(self, expr, assign_to=None):
+        print(expr)
         """
         Print the expression as code.
 
@@ -99,9 +100,9 @@ class CodePrinter(StrPrinter):
         self._number_symbols = set()
 
         lines = self._print(expr).splitlines()
-
         # format the output
         if self._settings["human"]:
+            print("if conditions reached")
             frontlines = []
             if len(self._not_supported) > 0:
                 frontlines.append(self._get_comment(
@@ -109,11 +110,15 @@ class CodePrinter(StrPrinter):
                 for expr in sorted(self._not_supported, key=str):
                     frontlines.append(self._get_comment(type(expr).__name__))
             for name, value in sorted(self._number_symbols, key=str):
+                print("name:", name)
+                print("value:", value)
                 frontlines.append(self._declare_number_const(name, value))
             lines = frontlines + lines
             lines = self._format_code(lines)
             result = "\n".join(lines)
+            print("\nresult:", result)
         else:
+            print("else condition reached")
             lines = self._format_code(lines)
             num_syms = set([(k, self._print(v)) for k, v in self._number_symbols])
             result = (num_syms, self._not_supported, "\n".join(lines))
